@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+
+    //plugin for flaky tests
+    id 'org.gradle.test-retry' version '1.0.0'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.testng:testng:7.6.0'
+}
+
+test {
+    //Select platform
+    useJUnitPlatform()
+
+    //useJUnitPlatform() - use only for jUnit5 tests to be run
+    //useJUnit() - use only for jUnit4 tests to be run
+    //useTestNG() - use only for TestNG tests to be run
+
+    //Add dependency for flaky test
+
+    retry {
+        maxRetries = 2;
+        maxFailures = 20;
+        failOnPassedAfterRetry = true;
+    }
+}
